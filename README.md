@@ -35,3 +35,11 @@ GET /tasks/:id    consultar detalle
 POST /tasks       crear tarea
 PATCH /tasks/:id  actualizar tarea
 DELETE /tasks/:id eliminar tarea
+
+## API de tareas
+
+* **URL exacta:** `https://jsonplaceholder.typicode.com/todos?userId=2`
+* **Parámetro de filtro:** `userId = 2` (configurado como constante en `TaskApiService`).
+* **Campos que entrega la API:** `id` (entero), `userId` (entero), `title` (texto) y `completed` (booleano, mapeado a `isCompleted`).
+* **Valores por defecto completados por TaskFlow:** Como JSONPlaceholder no devuelve descripción ni prioridad, `Task.fromJson` asigna `'Sin descripción (API)'` y `'Sin prioridad (API)'`.
+* **Persistencia actual:** Marcar una tarea como completada o pendiente modifica únicamente la copia en memoria dentro de `RemoteTaskRepository`; al reiniciar la aplicación, los datos vuelven al estado original devuelto por la API.
