@@ -43,3 +43,13 @@ DELETE /tasks/:id eliminar tarea
 * **Campos que entrega la API:** `id` (entero), `userId` (entero), `title` (texto) y `completed` (booleano, mapeado a `isCompleted`).
 * **Valores por defecto completados por TaskFlow:** Como JSONPlaceholder no devuelve descripción ni prioridad, `Task.fromJson` asigna `'Sin descripción (API)'` y `'Sin prioridad (API)'`.
 * **Persistencia actual:** Marcar una tarea como completada o pendiente modifica únicamente la copia en memoria dentro de `RemoteTaskRepository`; al reiniciar la aplicación, los datos vuelven al estado original devuelto por la API.
+
+
+## Estados de la lista remota (Sesión 8)
+
+La pantalla principal (`TaskListScreen`) distingue cuatro estados gestionados desde `TasksViewModel`:
+
+* **Carga (`isLoading`):** Se muestra un `CircularProgressIndicator` mientras la petición HTTP está en curso; se comprobó al iniciar la app y al pulsar el botón de recarga.
+* **Éxito (`tasks` con elementos):** Muestra el listado de tareas del usuario `userId = 2` con soporte para actualizar desde el `AppBar` o deslizando hacia abajo (`RefreshIndicator`).
+* **Vacío (`isEmpty`):** Se provocó cambiando temporalmente `userId` a `9999` en `TaskApiService`. La API responde con `[]` (HTTP 200) y la interfaz muestra el mensaje *"Todavía no hay tareas para mostrar."* junto al botón **Actualizar**.
+* **Error (`errorMessage`):** Se provocó desconectando el acceso a red (modo *Offline* / sin conexión) y pulsando el botón de recarga. La interfaz muestra el mensaje de error y el botón **Reintentar**, que al restaurar la conexión vuelve a cargar la lista sin reiniciar la aplicación.
