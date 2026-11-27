@@ -30,16 +30,23 @@ class TaskListScreen extends StatelessWidget {
         onPressed: () async {
           final draft = await context.push<TaskDraft>('/new');
           if (!context.mounted || draft == null) return;
-          final dateNote = draft.dueDate != null
-              ? ' (${draft.dueDate!.day}/${draft.dueDate!.month}/${draft.dueDate!.year})'
-              : '';
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'Formulario válido: ${draft.title} [${draft.priority}]$dateNote',
-              ),
-            ),
-          );
+          try {
+            await context.read<TasksViewModel>().createTask(
+              draft.title,
+              draft.description,
+              draft.priority,
+            );
+            if (context.mounted) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(const SnackBar(content: Text('Tarea creada')));
+            }
+          } catch (_) {
+            if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('No se pudo crear la tarea')),
+              );
+            }
+          }
         },
         icon: const Icon(Icons.add),
         label: const Text('Nueva tarea'),

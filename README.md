@@ -53,3 +53,13 @@ La pantalla principal (`TaskListScreen`) distingue cuatro estados gestionados de
 * **Éxito (`tasks` con elementos):** Muestra el listado de tareas del usuario `userId = 2` con soporte para actualizar desde el `AppBar` o deslizando hacia abajo (`RefreshIndicator`).
 * **Vacío (`isEmpty`):** Se provocó cambiando temporalmente `userId` a `9999` en `TaskApiService`. La API responde con `[]` (HTTP 200) y la interfaz muestra el mensaje *"Todavía no hay tareas para mostrar."* junto al botón **Actualizar**.
 * **Error (`errorMessage`):** Se provocó desconectando el acceso a red (modo *Offline* / sin conexión) y pulsando el botón de recarga. La interfaz muestra el mensaje de error y el botón **Reintentar**, que al restaurar la conexión vuelve a cargar la lista sin reiniciar la aplicación.
+
+
+## Operaciones CRUD (Sesión 10)
+
+TaskFlow ejecuta las operaciones de escritura contra JSONPlaceholder mediante Dio:
+
+* **Crear (`POST /todos`):** Desde el formulario `/new`, agrega la nueva tarea al final de la lista tras confirmar la respuesta HTTP.
+* **Editar (`PATCH /todos/:id`):** Desde el detalle de una tarea, permite modificar el título mediante un diálogo y actualiza la vista tras la respuesta.
+* **Eliminar (`DELETE /todos/:id`):** Solicita confirmación mediante un `AlertDialog` antes de enviar la petición y remover la tarea de la lista.
+* **Limitación de la API:** JSONPlaceholder simula las escrituras (responde con códigos HTTP exitosos), pero no persiste los cambios en su servidor; al recargar o reiniciar la aplicación, la lista vuelve a los datos originales del `userId = 2`.
